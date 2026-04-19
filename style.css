@@ -1,0 +1,1130 @@
+/* ============ RESET GLOBAL ============ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* ============ VARIÁVEIS ============ */
+:root {
+    --primary-color: #3498db;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --gray-color: #95a5a6;
+    --navy-blue: #1a2a6c;
+    --navy-light: #2c4c9e;
+}
+
+/* ============================================ */
+/* ============ TOTEM MODERNO (NOVO) ============ */
+/* ============================================ */
+.totem-page-new {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: linear-gradient(145deg, #e8eef4 0%, #d0dae8 50%, #b8c4d4 100%);
+    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    color: #1a2a6c;
+}
+
+/* Background Decorativo */
+.totem-page-new .bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.totem-page-new .bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.totem-page-new .bg-circle-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+}
+
+.totem-page-new .bg-circle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -50px;
+    left: -50px;
+    background: radial-gradient(circle, rgba(26,42,108,0.08) 0%, rgba(26,42,108,0) 70%);
+}
+
+.totem-page-new .bg-circle-3 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 30%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+}
+
+/* Wrapper Principal */
+.totem-page-new .totem-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(10px, 2vw, 20px);
+}
+
+.totem-page-new .totem-main-container {
+    width: 100%;
+    max-width: 1100px;
+    height: 95vh;
+    max-height: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vh, 20px);
+}
+
+/* Header Moderno */
+.totem-page-new .totem-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(15px, 3vh, 25px) clamp(20px, 4vw, 35px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.totem-page-new .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.totem-page-new .welcome-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a2a6c, #2c4c9e);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    font-weight: 500;
+    width: fit-content;
+    margin-bottom: 5px;
+}
+
+.totem-page-new .welcome-text {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    color: #1a2a6c;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.totem-page-new .welcome-subtext {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    color: #5a6a8c;
+    margin: 0;
+    font-weight: 400;
+}
+
+.totem-page-new .header-right {
+    flex-shrink: 0;
+}
+
+.totem-page-new .logo-wrapper {
+    position: relative;
+    width: clamp(70px, 12vw, 100px);
+    height: clamp(70px, 12vw, 100px);
+    border-radius: 25px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
+    transition: all 0.3s ease;
+    border: 3px solid white;
+}
+
+.totem-page-new .logo-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(26, 42, 108, 0.25);
+}
+
+.totem-page-new .logo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.totem-page-new .logo-hover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 42, 108, 0.85);
+    color: white;
+    padding: 6px;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.totem-page-new .logo-wrapper:hover .logo-hover {
+    transform: translateY(0);
+}
+
+/* Data e Hora */
+.totem-page-new .datetime-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 5px;
+}
+
+.totem-page-new .time-display {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: #1a2a6c;
+    letter-spacing: 1px;
+}
+
+.totem-page-new .date-display {
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    color: #5a6a8c;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+/* Área de Conteúdo */
+.totem-page-new .content-area {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.totem-page-new .categories-screen,
+.totem-page-new .ticket-screen {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Grid de Categorias */
+.totem-page-new .categories-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: clamp(12px, 2vw, 20px);
+    height: 100%;
+    align-content: center;
+    padding: 10px 0;
+}
+
+.totem-page-new .category-card-modern {
+    background: white;
+    border-radius: 25px;
+    padding: clamp(20px, 4vh, 35px) clamp(15px, 3vw, 25px);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.totem-page-new .category-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 40px rgba(26, 42, 108, 0.12);
+    border-color: rgba(26, 42, 108, 0.2);
+}
+
+.totem-page-new .category-icon-modern {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    margin-bottom: 5px;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+.totem-page-new .category-name-modern {
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 700;
+    color: #1a2a6c;
+    margin: 0;
+}
+
+.totem-page-new .category-queue-modern {
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    color: #5a6a8c;
+    background: #f0f4fa;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+/* Tela de Senha (Ticket) */
+.totem-page-new .ticket-screen {
+    justify-content: center;
+    gap: 25px;
+}
+
+.totem-page-new .ticket-card {
+    background: white;
+    border-radius: 40px;
+    padding: clamp(25px, 5vh, 40px);
+    box-shadow: 0 30px 60px rgba(26, 42, 108, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.totem-page-new .ticket-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.totem-page-new .ticket-label {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: #5a6a8c;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.totem-page-new .ticket-body {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 2px dashed #e0e6f0;
+    border-bottom: 2px dashed #e0e6f0;
+}
+
+.totem-page-new .ticket-number {
+    font-size: clamp(4rem, 12vw, 7rem);
+    font-weight: 800;
+    color: #1a2a6c;
+    line-height: 1.1;
+    letter-spacing: 5px;
+    font-family: 'Inter', monospace;
+    margin-bottom: 15px;
+}
+
+.totem-page-new .ticket-category {
+    display: inline-block;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 600;
+    padding: 10px 35px;
+    border-radius: 50px;
+    color: white;
+    background: linear-gradient(135deg, #1a2a6c, #2c4c9e);
+    box-shadow: 0 10px 25px rgba(26, 42, 108, 0.3);
+}
+
+.totem-page-new .ticket-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.totem-page-new .ticket-message {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: #5a6a8c;
+    margin: 0;
+    font-weight:500;
+}
+
+.totem-page-new .ticket-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Botões Modernos */
+.totem-page-new .btn-primary-modern,
+.totem-page-new .btn-secondary-modern {
+    padding: clamp(14px, 3vh, 18px) clamp(25px, 5vw, 40px);
+    border-radius: 60px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.totem-page-new .btn-primary-modern {
+    background: linear-gradient(135deg, #1a2a6c, #2c4c9e);
+    color: white;
+}
+
+.totem-page-new .btn-primary-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 35px rgba(26, 42, 108, 0.3);
+}
+
+.totem-page-new .btn-secondary-modern {
+    background: white;
+    color: #1a2a6c;
+    border: 2px solid #e0e6f0;
+}
+
+.totem-page-new .btn-secondary-modern:hover {
+    background: #f8fafc;
+    border-color: #1a2a6c;
+    transform: translateY(-3px);
+}
+
+/* Footer Moderno */
+.totem-page-new .totem-footer-modern {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: clamp(12px, 2vh, 20px) clamp(15px, 3vw, 30px);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.totem-page-new .footer-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.totem-page-new .stat-icon {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    background: white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.totem-page-new .stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.totem-page-new .stat-label {
+    font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+    color: #5a6a8c;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.totem-page-new .stat-number {
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 700;
+    color: #1a2a6c;
+    line-height: 1.2;
+}
+
+/* Nome da Empresa Editável */
+.totem-page-new .company-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 5px 0;
+}
+
+.totem-page-new .company-input-modern {
+    background: transparent;
+    border: none;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-weight: 500;
+    color: #5a6a8c;
+    text-align: center;
+    outline: none;
+    padding: 5px 15px;
+    border-radius: 50px;
+    transition: all 0.3s;
+    cursor: pointer;
+    max-width: 200px;
+}
+
+.totem-page-new .company-input-modern:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.totem-page-new .company-input-modern:focus {
+    background: white;
+    cursor: text;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.totem-page-new .edit-hint {
+    font-size: 0.75rem;
+    color: #8a9ab8;
+    opacity: 0.7;
+}
+
+/* ============================================ */
+/* ============ DISPLAY PAGE ================== */
+/* ============================================ */
+.display-page {
+    background: #1a1a2e !important;
+    min-height: 100vh;
+    color: white;
+    padding: 15px;
+}
+
+.display-page .display-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.display-page .display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.display-page .display-logo h1 {
+    font-size: clamp(1.5em, 4vw, 2.5em);
+}
+
+.display-page .display-relogio {
+    font-size: clamp(2em, 5vw, 3em);
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: #2ecc71;
+}
+
+.display-page .display-senha-atual {
+    background: linear-gradient(135deg, #3498db, #2ecc71);
+    padding: clamp(20px, 4vw, 40px);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.display-page .senha-display-numero {
+    font-size: clamp(4em, 15vw, 12em);
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    line-height: 1.2;
+}
+
+.display-page .senha-display-categoria {
+    display: inline-block;
+    font-size: clamp(1.5em, 4vw, 3em);
+    padding: 10px 30px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.2);
+    margin: 15px 0;
+}
+
+.display-page .senha-display-guiche {
+    font-size: clamp(2em, 6vw, 4em);
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.display-page .display-proximas {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    flex: 1;
+}
+
+.display-page .proximas-senhas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.display-page .proxima-senha-item {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.display-page .display-historico {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+/* ============================================ */
+/* ============ CONTROLE PAGE ================= */
+/* ============================================ */
+.controle-page {
+    background: #f5f7fa !important;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.controle-page .controle-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.controle-page .controle-header {
+    background: white !important;
+    padding: 15px 25px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.controle-page .controle-header h1 {
+    font-size: clamp(1.5em, 3vw, 2em);
+    color: #2c3e50;
+}
+
+.controle-page .header-left,
+.controle-page .header-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.controle-page .guiche-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controle-page .guiche-select {
+    padding: 8px 15px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    background: white;
+}
+
+.controle-page .guiches-ativos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.controle-page .guiche-badge {
+    background: #2ecc71;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.controle-page .atendente-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controle-page .atendente-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    min-width: 150px;
+}
+
+.controle-page .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.controle-page .controle-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    flex: 1;
+}
+
+.controle-page .controle-left,
+.controle-page .controle-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.controle-page .card {
+    background: white !important;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.controle-page .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.controle-page .card h2 {
+    color: #2c3e50;
+    font-size: clamp(1.1em, 2vw, 1.3em);
+}
+
+.controle-page .card.destaque {
+    border: 3px solid #3498db;
+}
+
+.controle-page .fila-contador {
+    background: #3498db;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.controle-page .fila-container {
+    max-height: 350px;
+    overflow: auto;
+}
+
+.controle-page .fila-header {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 80px 100px;
+    padding: 12px 10px;
+    background: #2c3e50;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+    min-width: 500px;
+}
+
+.controle-page .fila-item {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 80px 100px;
+    padding: 12px 10px;
+    background: #ecf0f1;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    align-items: center;
+    font-size: 0.95em;
+    min-width: 500px;
+}
+
+.controle-page .fila-senha {
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1em;
+}
+
+.controle-page .fila-categoria-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: white;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: bold;
+    max-width: fit-content;
+}
+
+.controle-page .fila-guiche {
+    text-align: center;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.controle-page .fila-acoes {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.controle-page .categorias-controle {
+    display: grid;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.controle-page .categoria-controle-item {
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+}
+
+.controle-page .categoria-controle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.controle-page .categoria-controle-nome {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.controle-page .categoria-controle-contador {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.controle-page .atendimento-atual {
+    min-height: 180px;
+    padding: 20px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controle-page .atendimento-vazio {
+    text-align: center;
+    color: #95a5a6;
+}
+
+.controle-page .icone-grande {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.controle-page .senha-atual-grande {
+    font-size: clamp(3em, 6vw, 5em);
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 10px;
+}
+
+.controle-page .categoria-atual {
+    display: inline-block;
+    padding: 8px 25px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.controle-page .guiche-atual {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+.controle-page .timer-atual {
+    font-size: 1.8em;
+    font-family: 'Courier New', monospace;
+    color: #f39c12;
+}
+
+.controle-page .atendimento-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.controle-page .historico-controle {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.controle-page .historico-controle-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+.controle-page .stats-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.controle-page .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #ecf0f1;
+    border-radius: 8px;
+}
+
+.controle-page .stat-label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.controle-page .stat-value {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.controle-page .sistema-acoes {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+
+/* Botões do Controle */
+.controle-page .btn-primary {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.controle-page .btn-primary:hover {
+    background: #2980b9;
+}
+
+.controle-page .btn-success {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.controle-page .btn-danger {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.controle-page .btn-secondary {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+}
+
+.controle-page .btn-outline {
+    background: transparent;
+    color: #3498db;
+    border: 2px solid #3498db;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: bold;
+}
+
+.controle-page .btn-outline:hover {
+    background: #3498db;
+    color: white;
+}
+
+.controle-page .btn-grande {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+}
+
+.controle-page .btn-small {
+    padding: 5px 12px;
+    font-size: 0.85em;
+}
+
+/* Modal do Controle */
+.controle-page .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.controle-page .modal-content {
+    background-color: white;
+    margin: 30px auto;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.controle-page .modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controle-page .modal-header h3 {
+    color: #2c3e50;
+    font-size: 1.3em;
+}
+
+.controle-page .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #95a5a6;
+}
+
+.controle-page .modal-body {
+    padding: 25px;
+}
+
+/* ============================================ */
+/* ============ MEDIA QUERIES GLOBAIS ========= */
+/* ============================================ */
+@media (max-width: 1024px) {
+    .controle-page .controle-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .totem-page-new .totem-main-container {
+        height: 98vh;
+        gap: 10px;
+    }
+    
+    .totem-page-new .totem-header-modern {
+        padding: 15px 20px;
+    }
+    
+    .totem-page-new .categories-grid-modern {
+        grid-template-columns: 1fr;
+    }
+    
+    .totem-page-new .category-card-modern {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 15px 20px;
+    }
+    
+    .controle-page .controle-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .controle-page .header-left,
+    .controle-page .header-right {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+    
+    .controle-page .sistema-acoes {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .totem-page-new .totem-header-modern {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .totem-page-new .header-left {
+        align-items: center;
+    }
+    
+    .controle-page .fila-acoes {
+        flex-direction: column;
+    }
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.totem-page-new .category-card-modern,
+.totem-page-new .ticket-card {
+    animation: fadeInUp 0.5s ease-out;
+}

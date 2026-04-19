@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Comprovante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #1a2a6c, #2c4c9e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .comprovante-card {
+            background: white;
+            border-radius: 40px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+        .comprovante-header {
+            margin-bottom: 30px;
+        }
+        .comprovante-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        .comprovante-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a2a6c;
+        }
+        .senha-box {
+            background: linear-gradient(135deg, #1a2a6c, #2c4c9e);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 20px 0;
+            color: white;
+        }
+        .senha-numero {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+        .senha-categoria {
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 8px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .info-item {
+            background: #f0f4fa;
+            padding: 15px;
+            border-radius: 20px;
+        }
+        .info-label {
+            font-size: 0.8rem;
+            color: #5a6a8c;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a2a6c;
+        }
+        .btn-download {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-download:hover {
+            background: #27ae60;
+        }
+        .btn-download:active {
+            transform: scale(0.98);
+        }
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+        }
+        .footer-note {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width: 400px; width: 100%;">
+        <div id="loadingContent" class="loading">
+            <p>🎫 Carregando seu comprovante...</p>
+        </div>
+        
+        <div id="comprovanteContent" style="display: none;">
+            <div class="comprovante-card" id="comprovanteCard">
+                <div class="comprovante-header">
+                    <div class="comprovante-icon" id="comprovanteIcone">🎫</div>
+                    <div class="comprovante-title">Comprovante Digital</div>
+                </div>
+                
+                <div class="senha-box" id="senhaBox">
+                    <div class="senha-numero" id="comprovanteNumero">---</div>
+                    <div class="senha-categoria" id="comprovanteCategoria">---</div>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Data</div>
+                        <div class="info-value" id="comprovanteData">--/--/----</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Horário</div>
+                        <div class="info-value" id="comprovanteHora">--:--</div>
+                    </div>
+                </div>
+                
+                <div class="info-item" style="margin-bottom: 20px;">
+                    <div class="info-label">Status</div>
+                    <div class="info-value" id="comprovanteStatus">Aguardando</div>
+                </div>
+                
+                <button class="btn-download" onclick="baixarComprovante()">
+                    ⬇️ Baixar Comprovante (Print)
+                </button>
+                
+                <p style="margin-top: 20px; color: #5a6a8c; font-size: 0.9rem;">
+                    Apresente este comprovante quando solicitado
+                </p>
+            </div>
+        </div>
+        
+        <div id="errorContent" style="display: none;">
+            <div class="comprovante-card">
+                <div class="comprovante-icon">❌</div>
+                <div class="comprovante-title">Erro</div>
+                <div class="error-message" id="errorMessage">
+                    Não foi possível carregar o comprovante.
+                </div>
+                <button class="btn-download" onclick="location.reload()">
+                    Tentar novamente
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+            DigiFluxo - Sistema de Senhas
+        </div>
+    </div>
+
+    <!-- html2canvas para gerar imagem -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        // ============ CARREGAR COMPROVANTE ============
+        
+        // Pegar parâmetros da URL
+        const params = new URLSearchParams(window.location.search);
+        const ticketId = params.get('id');
+        
+        // Também aceitar dados diretos na URL (fallback)
+        const numero = params.get('numero');
+        const categoria = params.get('categoria');
+        const cor = params.get('cor') || '#3498db';
+        const icone = params.get('icone') || '🎫';
+        
+        console.log('🎫 Carregando comprovante...', { ticketId, numero, categoria });
+        
+        // Função para mostrar erro
+        function mostrarErro(mensagem) {
+            document.getElementById('loadingContent').style.display = 'none';
+            document.getElementById('comprovanteContent').style.display = 'none';
+            document.getElementById('errorContent').style.display = 'block';
+            document.getElementById('errorMessage').textContent = mensagem;
+        }
+        
+        // Função para exibir o comprovante
+        function exibirComprovante(dados) {
+            console.log('📄 Exibindo comprovante:', dados);
+            
+            document.getElementById('loadingContent').style.display = 'none';
+            document.getElementById('comprovanteContent').style.display = 'block';
+            
+            // Preencher dados
+            document.getElementById('comprovanteIcone').textContent = dados.icone || '🎫';
+            document.getElementById('comprovanteNumero').textContent = dados.numero || '---';
+            document.getElementById('comprovanteCategoria').textContent = dados.categoria || 'Geral';
+            document.getElementById('comprovanteCategoria').style.backgroundColor = dados.cor || '#3498db';
+            
+            // Cor de fundo da caixa de senha
+            const senhaBox = document.getElementById('senhaBox');
+            if (dados.cor) {
+                senhaBox.style.background = `linear-gradient(135deg, ${dados.cor}, ${ajustarCor(dados.cor, -30)})`;
+            }
+            
+            // Data e hora
+            const agora = new Date();
+            document.getElementById('comprovanteData').textContent = agora.toLocaleDateString('pt-BR');
+            document.getElementById('comprovanteHora').textContent = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+            
+            // Status
+            document.getElementById('comprovanteStatus').textContent = 'Aguardando chamada';
+        }
+        
+        // Função para ajustar cor (escurecer)
+        function ajustarCor(cor, percentual) {
+            try {
+                const num = parseInt(cor.replace('#', ''), 16);
+                const r = (num >> 16) + percentual;
+                const g = ((num >> 8) & 0x00FF) + percentual;
+                const b = (num & 0x0000FF) + percentual;
+                const novaCor = (1 << 24) + 
+                    (Math.min(255, Math.max(0, r)) << 16) + 
+                    (Math.min(255, Math.max(0, g)) << 8) + 
+                    Math.min(255, Math.max(0, b));
+                return '#' + novaCor.toString(16).slice(1);
+            } catch (e) {
+                return cor;
+            }
+        }
+        
+        // ============ TENTAR CARREGAR DO FIREBASE (SE CONFIGURADO) ============
+        async function carregarDoFirebase() {
+            // Verificar se Firebase está disponível
+            if (typeof firebase !== 'undefined' && firebase.database) {
+                try {
+                    const database = firebase.database();
+                    const snapshot = await database.ref('tickets/' + ticketId).once('value');
+                    const ticketData = snapshot.val();
+                    
+                    if (ticketData) {
+                        exibirComprovante({
+                            numero: ticketData.numero,
+                            categoria: ticketData.categoriaNome,
+                            cor: ticketData.categoriaCor,
+                            icone: ticketData.categoriaIcone
+                        });
+                        return true;
+                    }
+                } catch (error) {
+                    console.log('Firebase não disponível ou erro:', error.message);
+                }
+            }
+            return false;
+        }
+        
+        // ============ INICIALIZAR ============
+        async function inicializar() {
+            console.log('🚀 Inicializando comprovante...');
+            
+            // Verificar se tem dados diretos na URL (modo offline)
+            if (numero && categoria) {
+                console.log('✅ Usando dados da URL');
+                exibirComprovante({ numero, categoria, cor, icone });
+                return;
+            }
+            
+            // Verificar se tem ticketId
+            if (!ticketId) {
+                console.log('❌ Nenhum ID fornecido');
+                // Modo demonstração
+                exibirComprovante({
+                    numero: 'G001',
+                    categoria: 'Geral',
+                    cor: '#3498db',
+                    icone: '🎫'
+                });
+                return;
+            }
+            
+            // Tentar carregar do Firebase
+            const carregou = await carregarDoFirebase();
+            
+            if (!carregou) {
+                console.log('⚠️ Firebase não disponível, usando dados padrão');
+                // Usar dados padrão baseado no ticketId
+                const letra = ticketId.charAt(0) || 'G';
+                const numero = letra + '001';
+                exibirComprovante({
+                    numero: numero,
+                    categoria: 'Senha',
+                    cor: '#1a2a6c',
+                    icone: '🎫'
+                });
+            }
+        }
+        
+        // ============ BAIXAR COMPROVANTE ============
+        function baixarComprovante() {
+            const element = document.getElementById('comprovanteCard');
+            
+            html2canvas(element, { 
+                scale: 2, 
+                backgroundColor: '#ffffff',
+                allowTaint: true,
+                useCNAME: true
+            }).then((canvas) => {
+                // Criar link para download
+                const link = document.createElement('a');
+                const numeroSenha = document.getElementById('comprovanteNumero').textContent;
+                link.download = `senha-${numeroSenha}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Feedback visual
+                const btn = event.target;
+                btn.textContent = '✅ Baixado!';
+                setTimeout(() => {
+                    btn.textContent = '⬇️ Baixar Comprovante (Print)';
+                }, 2000);
+                
+            }).catch((error) => {
+                console.error('Erro ao gerar imagem:', error);
+                alert('📸 Tire um print desta tela para salvar seu comprovante!');
+            });
+        }
+        
+        // Iniciar
+        inicializar();
+    </script>
+    
+    <!-- Tentar carregar Firebase (opcional) -->
+    <script>
+        // Tentar carregar firebase-config.js se existir
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'firebase-config.js';
+            script.onerror = () => console.log('Firebase config não encontrado - modo offline');
+            document.head.appendChild(script);
+        })();
+    </script>
+</body>
+</html>

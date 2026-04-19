@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Senhas</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body class="display-page">
+    <div class="display-container">
+        <header class="display-header">
+            <div class="display-logo">
+                <h1>🏥 SISTEMA DE SENHAS</h1>
+            </div>
+            <div class="display-relogio" id="displayRelogio"></div>
+        </header>
+
+        <div class="display-senha-atual">
+            <div class="senha-atual-label">SENHA ATUAL</div>
+            <div class="senha-atual-display" id="senhaAtualDisplay">
+                <div class="senha-display-numero" id="displayNumero">---</div>
+                <div class="senha-display-categoria" id="displayCategoria"></div>
+                <div class="senha-display-guiche" id="displayGuiche"></div>
+            </div>
+            <div class="senha-chamada-info" id="displayChamadaInfo"></div>
+        </div>
+
+        <div class="display-proximas">
+            <h2>PRÓXIMAS SENHAS</h2>
+            <div class="proximas-senhas-grid" id="proximasSenhasGrid"></div>
+        </div>
+
+        <div class="display-historico">
+            <h2>ÚLTIMAS CHAMADAS</h2>
+            <div class="historico-display" id="historicoDisplay"></div>
+        </div>
+
+        <footer class="display-footer">
+            <div class="mensagem-espera">
+                Por favor, aguarde sua senha ser chamada e dirija-se ao guichê indicado
+            </div>
+        </footer>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

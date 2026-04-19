@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Atendente</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body class="controle-page">
+    <div class="controle-container">
+        <header class="controle-header">
+            <div class="header-left">
+                <h1>🎛️ Painel de Controle</h1>
+                <div class="guiche-selector">
+                    <label>Guichê:</label>
+                    <select id="guicheSelect" class="guiche-select">
+                        <option value="01">Guichê 01</option>
+                        <option value="02">Guichê 02</option>
+                        <option value="03">Guichê 03</option>
+                        <option value="04">Guichê 04</option>
+                        <option value="05">Guichê 05</option>
+                    </select>
+                </div>
+                <div class="guiches-ativos" id="guichesAtivos"></div>
+            </div>
+            <div class="header-right">
+                <div class="atendente-info">
+                    <span>Atendente: </span>
+                    <input type="text" id="atendenteNome" value="Atendente 01" class="atendente-input">
+                </div>
+                <div class="header-actions">
+                    <button id="abrirDisplayBtn" class="btn-outline">🖥️ Display</button>
+                    <button id="abrirTotemBtn" class="btn-outline">📱 Totem</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="controle-main">
+            <div class="controle-left">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📋 Fila de Espera</h2>
+                        <span class="fila-contador" id="filaContador">0 senhas</span>
+                    </div>
+                    <div class="fila-container">
+                        <div class="fila-header">
+                            <span>Senha</span>
+                            <span>Categoria</span>
+                            <span>Guichê</span>
+                            <span>Ações</span>
+                        </div>
+                        <div class="fila-list" id="filaList"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📊 Categorias</h2>
+                        <button id="gerenciarCategoriasBtn" class="btn-outline btn-small">
+                            ⚙️ Gerenciar
+                        </button>
+                    </div>
+                    <div class="categorias-controle" id="categoriasControle"></div>
+                </div>
+            </div>
+
+            <div class="controle-right">
+                <div class="card destaque">
+                    <h2>🎯 Atendimento Atual</h2>
+                    <div class="atendimento-atual" id="atendimentoAtual">
+                        <div class="atendimento-vazio" id="atendimentoVazio">
+                            <span class="icone-grande">⏸️</span>
+                            <p>Nenhum atendimento em andamento</p>
+                        </div>
+                        <div class="atendimento-info" id="atendimentoInfo" style="display: none;">
+                            <div class="senha-atual-grande" id="senhaAtualGrande">---</div>
+                            <div class="categoria-atual" id="categoriaAtual"></div>
+                            <div class="guiche-atual" id="guicheAtual"></div>
+                            <div class="timer-atual" id="timerAtual">00:00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="atendimento-acoes">
+                        <button id="chamarProximaBtn" class="btn-primary btn-grande">
+                            🔔 Chamar Próxima Senha
+                        </button>
+                        <button id="finalizarAtendimentoBtn" class="btn-success btn-grande" style="display: none;">
+                            ✅ Finalizar Atendimento
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🕒 Histórico de Hoje</h2>
+                        <button id="limparHistoricoBtn" class="btn-outline btn-small">
+                            Limpar
+                        </button>
+                    </div>
+                    <div class="historico-controle" id="historicoControle"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📈 Estatísticas do Dia</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Atendidos:</span>
+                            <span class="stat-value" id="totalAtendidos">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Na Fila:</span>
+                            <span class="stat-value" id="naFila">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Tempo Médio:</span>
+                            <span class="stat-value" id="tempoMedioAtendimento">00:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sistema-acoes">
+            <button id="resetarSistemaBtn" class="btn-danger">
+                🔄 Resetar Sistema
+            </button>
+            <button id="exportarRelatorioBtn" class="btn-secondary">
+                📊 Exportar Relatório
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal para Gerenciar Categorias -->
+    <div id="modalCategorias" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerenciar Categorias</h3>
+                <button class="modal-close" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <label>Nome da Categoria:</label>
+                    <input type="text" id="novaCategoriaNome" placeholder="Ex: Preferencial" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label>Cor:</label>
+                    <input type="color" id="novaCategoriaCor" value="#3498db" style="width: 100%; padding: 5px; margin-top: 5px; height: 40px;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label>Ícone:</label>
+                    <select id="novaCategoriaIcone" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px;">
+                        <option value="🎫">🎫 Geral</option>
+                        <option value="⭐">⭐ Prioridade</option>
+                        <option value="📅">📅 Agendado</option>
+                        <option value="👤">👤 Cadastro</option>
+                        <option value="💰">💰 Financeiro</option>
+                        <option value="🩺">🩺 Consulta</option>
+                        <option value="💊">💊 Farmácia</option>
+                    </select>
+                </div>
+                
+                <button id="adicionarCategoriaBtn" class="btn-primary" style="width: 100%;">Adicionar Categoria</button>
+                
+                <hr style="margin: 20px 0;">
+                
+                <h4>Categorias Existentes:</h4>
+                <div id="categoriasListModal" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                    <!-- Lista será carregada aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

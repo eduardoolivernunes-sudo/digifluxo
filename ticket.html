@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minha Senha Digital</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e8eef4 0%, #d0dae8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .ticket-container {
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .ticket-card {
+            background: white;
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: 0 30px 60px rgba(26, 42, 108, 0.15);
+            text-align: center;
+        }
+        
+        .logo-placeholder {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .company-name {
+            font-size: 1.2rem;
+            color: #5a6a8c;
+            margin-bottom: 30px;
+        }
+        
+        .ticket-label {
+            font-size: 1rem;
+            color: #5a6a8c;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-number {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #1a2a6c;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+        
+        .ticket-category {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 12px 35px;
+            border-radius: 50px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .queue-info {
+            background: #f0f4fa;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .queue-position {
+            font-size: 1.2rem;
+            color: #1a2a6c;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .queue-ahead {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a2a6c;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .status-waiting {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .status-called {
+            background: #2ecc71;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .notification-message {
+            background: #2ecc71;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .btn-save {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #5a6a8c;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <div class="ticket-card" id="ticketCard">
+            <div class="logo-placeholder">🎫</div>
+            <div class="company-name" id="companyNameDisplay">Sua Empresa</div>
+            
+            <div id="loadingContent">
+                <p>Carregando sua senha...</p>
+            </div>
+            
+            <div id="ticketContent" style="display: none;">
+                <div class="ticket-label">Sua Senha</div>
+                <div class="ticket-number" id="ticketNumber">---</div>
+                <div class="ticket-category" id="ticketCategory">---</div>
+                
+                <div class="queue-info">
+                    <div class="queue-position">Sua posição na fila</div>
+                    <div class="queue-ahead" id="queueAhead">-</div>
+                    <div style="margin-top: 10px; color: #5a6a8c;">
+                        <span id="peopleAhead">0</span> pessoa(s) na sua frente
+                    </div>
+                </div>
+                
+                <div id="statusDisplay">
+                    <span class="status-badge status-waiting" id="statusBadge">⏳ Aguardando</span>
+                </div>
+                
+                <div id="notificationArea"></div>
+            </div>
+            
+            <button class="btn-save" onclick="saveTicket()">📱 Salvar no Celular</button>
+        </div>
+        
+        <div class="footer-note">
+            Esta página atualiza automaticamente.<br>
+            Mantenha-a aberta para ser notificado.
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    
+    <script>
+        class TicketViewer {
+            constructor() {
+                this.database = firebase.database();
+                this.ticketId = this.getTicketIdFromUrl();
+                this.ticketData = null;
+                this.fila = [];
+                this.init();
+            }
+            
+            getTicketIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('id');
+            }
+            
+            async init() {
+                if (!this.ticketId) {
+                    this.showError('Ticket não encontrado');
+                    return;
+                }
+                
+                console.log('🎫 Carregando ticket:', this.ticketId);
+                
+                // Carregar dados do ticket
+                this.database.ref('tickets/' + this.ticketId).once('value').then((snapshot) => {
+                    this.ticketData = snapshot.val();
+                    
+                    if (!this.ticketData) {
+                        this.showError('Ticket expirado ou inválido');
+                        return;
+                    }
+                    
+                    this.displayTicket();
+                    this.setupListeners();
+                    this.checkIfAlreadyCalled();
+                });
+                
+                // Carregar fila para calcular posição
+                this.database.ref('fila').on('value', (snapshot) => {
+                    this.fila = snapshot.val() || [];
+                    this.fila = this.fila.filter(item => item !== null);
+                    this.updateQueuePosition();
+                });
+            }
+            
+            displayTicket() {
+                document.getElementById('loadingContent').style.display = 'none';
+                document.getElementById('ticketContent').style.display = 'block';
+                
+                document.getElementById('ticketNumber').textContent = this.ticketData.numero;
+                
+                const categoryEl = document.getElementById('ticketCategory');
+                categoryEl.textContent = this.ticketData.categoriaNome;
+                categoryEl.style.background = `linear-gradient(135deg, ${this.ticketData.categoriaCor}, ${this.ajustarCor(this.ticketData.categoriaCor, -20)})`;
+            }
+            
+            setupListeners() {
+                // Escutar mudanças no status do ticket
+                this.database.ref('tickets/' + this.ticketId).on('value', (snapshot) => {
+                    const updatedTicket = snapshot.val();
+                    
+                    if (updatedTicket) {
+                        this.ticketData = updatedTicket;
+                        
+                        if (updatedTicket.status === 'chamado' || updatedTicket.status === 'atendida') {
+                            this.notifyCalled(updatedTicket);
+                        }
+                    } else {
+                        // Ticket foi removido (atendido)
+                        this.showCompleted();
+                    }
+                });
+                
+                // Escutar quando a senha atual for chamada
+                this.database.ref('senhaAtual').on('value', (snapshot) => {
+                    const senhaAtual = snapshot.val();
+                    
+                    if (senhaAtual && this.ticketData) {
+                        if (senhaAtual.id === this.ticketData.id || senhaAtual.ticketId === this.ticketId) {
+                            this.notifyCalled(senhaAtual);
+                        }
+                    }
+                });
+            }
+            
+            updateQueuePosition() {
+                if (!this.ticketData) return;
+                
+                // Encontrar posição na fila
+                const index = this.fila.findIndex(s => s.id === this.ticketData.id || s.ticketId === this.ticketId);
+                
+                if (index !== -1) {
+                    document.getElementById('queueAhead').textContent = index + 1;
+                    document.getElementById('peopleAhead').textContent = index;
+                } else {
+                    // Verificar se já foi chamado
+                    document.getElementById('queueAhead').textContent = '-';
+                    document.getElementById('peopleAhead').textContent = '0';
+                }
+            }
+            
+            checkIfAlreadyCalled() {
+                this.database.ref('senhaAtual').once('value').then((snapshot) => {
+                    const senhaAtual = snapshot.val();
+                    
+                    if (senhaAtual && this.ticketData) {
+                        if (senhaAtual.id === this.ticketData.id || senhaAtual.ticketId === this.ticketId) {
+                            this.notifyCalled(senhaAtual);
+                        }
+                    }
+                });
+            }
+            
+            notifyCalled(senha) {
+                // Atualizar status visual
+                const statusBadge = document.getElementById('statusBadge');
+                statusBadge.className = 'status-badge status-called';
+                statusBadge.textContent = '🔔 SUA VEZ CHEGOU!';
+                
+                // Adicionar mensagem de notificação
+                const notificationArea = document.getElementById('notificationArea');
+                notificationArea.innerHTML = `
+                    <div class="notification-message">
+                        <div style="font-size: 1.5rem; margin-bottom: 10px;">🎉</div>
+                        <div style="font-size: 1.2rem;">Dirija-se ao guichê ${senha.guiche || '--'}</div>
+                    </div>
+                `;
+                
+                // Vibrar o celular (se suportado)
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+                
+                // Tocar som de notificação
+                this.playNotificationSound();
+                
+                // Notificação do sistema (se permitido)
+                this.requestNotificationPermission(senha);
+            }
+            
+            showCompleted() {
+                document.getElementById('ticketContent').innerHTML = `
+                    <div style="padding: 40px 0;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                        <h2 style="color: #1a2a6c; margin-bottom: 10px;">Atendimento Finalizado</h2>
+                        <p style="color: #5a6a8c;">Obrigado pela preferência!</p>
+                    </div>
+                `;
+            }
+            
+            showError(message) {
+                document.getElementById('loadingContent').innerHTML = `
+                    <div class="error-message">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">❌</div>
+                        <h3>${message}</h3>
+                    </div>
+                `;
+            }
+            
+            playNotificationSound() {
+                try {
+                    const audio = new Audio('data:audio/wav;base64,U3lzdGVtIG5vdGlmaWNhdGlvbg==');
+                    audio.play().catch(() => {});
+                } catch (e) {}
+            }
+            
+            requestNotificationPermission(senha) {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Sua vez chegou!', {
+                        body: `Senha ${senha.numero} - Dirija-se ao guichê ${senha.guiche || '--'}`,
+                        icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231a2a6c\'/%3E%3Ctext x=\'50\' y=\'65\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\'%3E🎫%3C/text%3E%3C/svg%3E'
+                    });
+                } else if ('Notification' in window && Notification.permission !== 'denied') {
+                    Notification.requestPermission();
+                }
+            }
+            
+            ajustarCor(cor, percentual) {
+                const num = parseInt(cor.replace('#', ''), 16);
+                const r = (num >> 16) + percentual;
+                const g = ((num >> 8) & 0x00FF) + percentual;
+                const b = (num & 0x0000FF) + percentual;
+                
+                const novaCor = (1 << 24) + 
+                    (Math.min(255, Math.max(0, r)) << 16) + 
+                    (Math.min(255, Math.max(0, g)) << 8) + 
+                    Math.min(255, Math.max(0, b));
+                
+                return '#' + novaCor.toString(16).slice(1);
+            }
+        }
+        
+        function saveTicket() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Minha Senha Digital',
+                    text: 'Acompanhe sua senha em tempo real!',
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                alert('Adicione esta página aos favoritos ou tire um print! 📸');
+            }
+            
+            // Solicitar permissão para notificações
+            if ('Notification' in window) {
+                Notification.requestPermission();
+            }
+        }
+        
+        let ticketViewer;
+        document.addEventListener('DOMContentLoaded', () => {
+            ticketViewer = new TicketViewer();
+        });
+    </script>
+</body>
+</html>
